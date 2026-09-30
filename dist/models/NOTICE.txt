@@ -1,0 +1,8 @@
+Female: VRoid AvatarSample_A, © pixiv / VRoid Project. Not CC0.
+Source: https://github.com/madjin/vrm-samples/blob/master/vroid/stable/AvatarSample_A.vrm
+Conditions: https://vroid.pixiv.help/hc/en-us/articles/4402394424089-VRoidPreset-A-Z
+
+Male: HairSample_Male / VRoid Project, CC0 (confirmed in source VRM metadata).
+Source: https://github.com/madjin/vrm-samples/blob/master/vroid/beta/HairSample_Male.vrm
+
+Adaptation: complete skin meshes including rear skull, no hair/clothes, neutral study materials, native skin weights and joint offsets retained. Rotations retarget to FORM poses with bounded clavicle and clearance corrections.

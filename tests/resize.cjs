@@ -1,0 +1,14 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),path=require('node:path');
+const root=path.resolve(__dirname,'..');
+const source=fs.readFileSync(path.join(root,'dist/app.js'),'utf8');
+const resize=source.match(/function resize\(\)\{[\s\S]*?\n\}/)[0];
+let rect={width:665.9,height:531.59},calls=0;
+const ctx={size:{w:0,h:0},needsUpdate:false,$:()=>({getBoundingClientRect:()=>rect}),renderer:{domElement:{width:300,height:150},getPixelRatio:()=>2,setSize(w,h){calls++;this.domElement.width=w*2;this.domElement.height=h*2;}},camera:{updateProjectionMatrix(){}},updateViewLabels(){}};
+vm.createContext(ctx);vm.runInContext(resize,ctx);
+ctx.resize();assert.equal(calls,1);for(let i=0;i<100;i++)ctx.resize();assert.equal(calls,1);
+rect={width:420,height:540};ctx.resize();assert.equal(calls,2);assert.equal(ctx.camera.aspect,420/540);
+rect={width:0,height:0};ctx.resize();assert.equal(calls,2);
+rect={width:420,height:540};ctx.renderer.domElement.width=300;ctx.resize();assert.equal(calls,3);
+const css=fs.readFileSync(path.join(root,'dist/style.css'),'utf8');
+assert.match(css,/#scene\{position:absolute;inset:0;width:100%;height:100%/);
+console.log('PASS: stable callbacks, viewport resize, hidden stage, buffer recovery, out-of-flow canvas');

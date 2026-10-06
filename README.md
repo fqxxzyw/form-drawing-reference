@@ -1,8 +1,8 @@
-# FORM · 人体结构研习室
+# FORM · 人体绘画参考工具
 
 面向绘画练习的浏览器 3D 人体姿势与透视参考工具。
 
-[在线使用](https://form-study-atelier.fqxxzyw.chatgpt.site)
+[在线使用](https://form-study-atelier.fqxxzyw.chatgpt.site) · [完整功能与开发文档](docs/DEVELOPMENT.md)
 
 ## 功能
 

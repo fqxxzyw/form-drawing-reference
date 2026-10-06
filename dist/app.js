@@ -199,7 +199,15 @@ function studyCamera(w,h,fit=state.compare){
  else {cam=camera.clone();cam.aspect=aspect;cam.position.copy(controls.target).add(camera.position.clone().sub(controls.target).multiplyScalar(fitScale));}
  cam.lookAt(controls.target);cam.updateProjectionMatrix();cam.updateMatrixWorld(true);return cam;
 }
-function resize(){if(!renderer)return;const rect=$('#stage').getBoundingClientRect();size={w:rect.width,h:rect.height};renderer.setSize(size.w,size.h,false);camera.aspect=size.w/size.h;camera.updateProjectionMatrix();updateViewLabels();needsUpdate=true;}
+function resize(){
+ if(!renderer)return;
+ const rect=$('#stage').getBoundingClientRect(),w=Math.floor(rect.width),h=Math.floor(rect.height);
+ if(w<1||h<1)return;
+ // The canvas fills the stage without contributing its intrinsic buffer dimensions to layout.
+ const bufferW=Math.floor(w*renderer.getPixelRatio()),bufferH=Math.floor(h*renderer.getPixelRatio());
+ if(size.w===w&&size.h===h&&renderer.domElement.width===bufferW&&renderer.domElement.height===bufferH)return;
+ size={w,h};renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();updateViewLabels();needsUpdate=true;
+}
 function order(){return state.reverse?[...visibleLevels].reverse():[...visibleLevels];}
 function viewLayout(){const columns=state.compareLayout==='grid'||size.w<600?2:4,rows=columns===2?2:1,w=size.w/columns,h=size.h/rows;return order().map((level,j)=>({level,x:(j%columns)*w,y:Math.floor(j/columns)*h,w,h}));}
 // Depth and normal contours hide rear edges; facial ink comes from the model's original eye textures.
